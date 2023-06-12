@@ -25,4 +25,18 @@ public class SolutionTest {
         Assert.assertEquals(output, new Solution().maxEnvelopes(envelopes));
     }
 
+
+    @Test
+    public void maxEnvelopesTest3() {
+        int[][] envelopes = {
+                {1, 3},
+                {3, 5},
+                {6, 7},
+                {6, 8},
+                {8, 4},
+                {9, 5}
+        };
+        int output = 3;
+        Assert.assertEquals(output, new Solution().maxEnvelopes(envelopes));
+    }
 }
