@@ -3,23 +3,26 @@ import java.util.Comparator;
 
 public class Solution {
     public int maxEnvelopes(int[][] envelopes) {
-        int[] dp = new int[envelopes.length];
-        dp[0] = 1;
-        int localMax = 1;
-        int globalMax = 1;
-        Arrays.sort(envelopes, Comparator.comparingInt(a -> a[0]));
-        for (int i = 1; i < envelopes.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (envelopes[i][0] > envelopes[j][0] && envelopes[i][1] > envelopes[j][1]) {
-                    localMax = Math.max(localMax, dp[j] + 1);
-                }
+
+        Arrays.sort(envelopes, Comparator.comparingInt((int[] a) -> a[0])
+                .thenComparingInt((int[] a) -> -a[1]));
+
+        int[] tails = new int[envelopes.length];
+        int size = 0;
+        for (int[] x : envelopes) {
+            int left = 0;
+            int right = size;
+            while (left != right) {
+                int m = left + (right - left) / 2;
+                if (tails[m] < x[1])
+                    left = m + 1;
+                else
+                    right = m;
             }
-            dp[i] = localMax;
-            globalMax = Math.max(localMax, globalMax);
-            localMax = 1;
+            tails[left] = x[1];
+            if (left == size)
+                ++size;
         }
-
-
-        return globalMax;
+        return size;
     }
 }
